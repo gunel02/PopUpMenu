@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">test_ui</string>
+    <string name="subtitles">Subtitles</string>
+    <string name="off">Off</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="turkish">Turkish</string>
+</resources>
