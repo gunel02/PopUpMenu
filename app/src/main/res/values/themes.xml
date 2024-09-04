@@ -3,6 +3,8 @@
     <style name="Base.Theme.Test_ui" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+            <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+            <item name="android:windowExitAnimation">@anim/popup_exit</item>
     </style>
 
     <style name="Theme.Test_ui" parent="Base.Theme.Test_ui" />

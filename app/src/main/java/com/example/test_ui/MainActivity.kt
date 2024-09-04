@@ -7,6 +7,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
@@ -30,12 +32,15 @@ class MainActivity : AppCompatActivity() {
         binding.iconVideoQuality.setOnClickListener {
             showPopupMenu(binding.iconVideoQuality)
         }
+
     }
 
     private fun showPopupMenu(anchorView: View) {
         val popupView = LayoutInflater.from(this).inflate(R.layout.layout_recycler_view, null)
         val recyclerView: RecyclerView = popupView.findViewById(R.id.item_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+
 
         val itemList = getItemList()
         val fixedItemPosition = 0
@@ -54,25 +59,40 @@ class MainActivity : AppCompatActivity() {
         popupWindow.isOutsideTouchable = true
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        val location = IntArray(2)
-        anchorView.getLocationOnScreen(location)
-        val anchorX = location[0]
-        val anchorY = location[1]
+        popupWindow.showAsDropDown(anchorView)
 
-        val popupWidth = popupView.measuredWidth
-        val popupHeight = popupView.measuredHeight
-        val screenHeight = resources.displayMetrics.heightPixels
-        val offsetX = 0
-        val offsetY = -(popupHeight + anchorView.height)
+//        popupWindow.showAtLocation(
+//            anchorView,
+//            Gravity.CENTER,
+//            0,
+//            0
+//        )
 
-        popupWindow.showAtLocation(
-            anchorView,
-            Gravity.NO_GRAVITY,
-            anchorX + offsetX,
-            anchorY + offsetY
-        )
+        // Calculate position for left-top alignment
+        val anchorViewLocation = IntArray(2)
+        anchorView.getLocationOnScreen(anchorViewLocation)
+        val xOffset = -popupWindow.contentView.measuredWidth
+        val yOffset = 0
 
+        // Show PopupWindow at calculated position
+        popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
+
+        // Apply animations
+        applyPopupWindowAnimations(popupWindow, anchorView)
     }
+
+    private fun applyPopupWindowAnimations(popupWindow: PopupWindow, anchorView: View) {
+        val showAnimation = AnimationUtils.loadAnimation(this, R.anim.popup_enter)
+        val hideAnimation = AnimationUtils.loadAnimation(this, R.anim.popup_exit)
+
+        popupWindow.contentView.startAnimation(showAnimation)
+
+        popupWindow.setOnDismissListener {
+            popupWindow.contentView.startAnimation(hideAnimation)
+        }
+    }
+
+
 
     private fun getItemList(): List<ItemList> {
         val itemList = mutableListOf<ItemList>()

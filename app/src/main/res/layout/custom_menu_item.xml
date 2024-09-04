@@ -8,6 +8,7 @@
 
 
     <LinearLayout
+        android:id="@+id/pop_up_menu"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
